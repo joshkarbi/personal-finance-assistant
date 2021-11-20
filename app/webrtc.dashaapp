@@ -1,0 +1,20 @@
+{
+  "formatVersion": "2",
+  "dialogue": {
+      "file": "main.dsl"
+  },
+  "nlu": {
+      "language": "en-US",
+      "skills": [],
+      "customIntents": {
+          "file": "data.json"
+      }
+  },
+  "nlg": {
+      "type": "phrases",
+      "file": "phrasemap.json",
+      "signatureFile": "phrasemap.json"
+  },
+  "name": "web-rtc-2",
+  "description": "Initial revision"
+}

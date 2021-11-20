@@ -1,0 +1,130 @@
+{
+  "version": "v2",
+  "intents": 
+  {
+    "yes": {
+      "includes": [
+        "yes",
+        "correct",
+        "sure",
+        "yep",
+        "I confirm",
+        "confirmed",
+        "I do",
+        "yeah",
+        "that's right"
+      ],
+      "excludes": []
+    },
+    "no": {
+      "includes": [
+        "no",
+        "definitely not",
+        "wrong",
+        "no, that's it, thank you",
+        "no thank you!",
+        "no! Let's catch some roadrunner",
+        "incorrect",
+        "I do not",
+        "I don't"
+      ]
+    },
+
+    "status": {
+      "includes": [
+        "What's the status of my rocket application",
+        "What is the status of my application",
+        "I put an application in for an ACME rocket. What is its status?",
+        "When will my ACME rocket application be approved?",
+        "When will my application be approved?",
+        "I'd like to check the status of my rockets application",
+        "Is my ACME rocket application approved?"
+      ]
+    },
+
+    "wait": {
+      "includes": [
+        "Hold on for a minute",
+        "Wait please",
+        "Give me a second ",
+        "Give me a minute",
+        "Hold on",
+        "Hold on I need to have a look",
+        "Hold the line",
+        "Wait please"
+      ],
+      "excludes": [
+        "Hello"
+      ]
+    }, 
+
+    "repeat": {
+      "includes": [
+        "Can you repeat please",
+        "Sorry, could you say it again",
+        "I didn't hear you ",
+        "I couldn't hear what you said",
+        "Can you repeat please? ",
+        "Please repeat it"
+      ]
+    }
+
+
+  },
+
+
+  "entities": {
+    "fruit": {
+      "open_set": true,
+      "values": [
+        {
+          "value": "strawberry",
+          "synonyms": [
+            "strawberry", "strawberries", "straw berry"
+          ]
+        },
+        {
+          "value": "road runner",
+          "synonyms": [
+            "road runner", "rd runner", "roadrunner"
+          ]
+        },
+        {
+          "value": "banana",
+          "synonyms": [
+            "banana", "bananas", "bananos"
+
+          ]
+        },
+        {
+          "value": "plum",
+          "synonyms": [
+            "plum", "plums"
+
+          ]
+        },
+        {
+          "value": "peach",
+          "synonyms": [
+            "peach", "peaches"
+          ]
+        },
+        {
+          "value": "apple",
+          "synonyms": [
+            "apple", "apples"
+          ]
+        }
+      ],
+      "includes": [
+        "I do love my (strawberry)[fruit]",
+        "My favorite fruit is (banana)[fruit]",
+        "Most days I prefer (plum)[fruit]",
+        "I would eat (peach)[fruit] every day for the rest of my life",
+        "Ah, what a question. (strawberry)[fruit] of course",
+        "I like (strawberry)[fruit] best of all"
+
+      ]
+    }
+  }
+}

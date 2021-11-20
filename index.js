@@ -35,13 +35,12 @@ const main = async () => {
   app.setExternal("canAffordExpense", async(args, conv) => {
     if (args.cost < 100)
     {
-
-      sendToFrontendOverWS("Can afford expense.");
+      await sendToFrontendOverWS("Can afford expense.");
       return true;
     }
     else 
     {
-      sendToFrontendOverWS("Cannot afford expense.");
+      await sendToFrontendOverWS("Cannot afford expense.");
       return false; 
     }
   });

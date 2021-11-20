@@ -174,6 +174,58 @@
         "Dinner at (The Keg)[place] tomorrow",
         "Dinner at (the keg)[place] tomorrow"
       ]
+    },
+    "fruit": {
+      "open_set": true,
+      "values": [
+        {
+          "value": "strawberry",
+          "synonyms": [
+            "strawberry", "strawberries", "straw berry"
+          ]
+        },
+        {
+          "value": "road runner",
+          "synonyms": [
+            "road runner", "rd runner", "roadrunner"
+          ]
+        },
+        {
+          "value": "banana",
+          "synonyms": [
+            "banana", "bananas", "bananos"
+
+          ]
+        },
+        {
+          "value": "plum",
+          "synonyms": [
+            "plum", "plums"
+
+          ]
+        },
+        {
+          "value": "peach",
+          "synonyms": [
+            "peach", "peaches"
+          ]
+        },
+        {
+          "value": "apple",
+          "synonyms": [
+            "apple", "apples"
+          ]
+        }
+      ],
+      "includes": [
+        "I do love my (strawberry)[fruit]",
+        "My favorite fruit is (banana)[fruit]",
+        "Most days I prefer (plum)[fruit]",
+        "I would eat (peach)[fruit] every day for the rest of my life",
+        "Ah, what a question. (strawberry)[fruit] of course",
+        "I like (strawberry)[fruit] best of all"
+
+      ]
     }
   }
 }

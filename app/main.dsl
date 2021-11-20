@@ -46,13 +46,14 @@ start node root
     {
         #connectSafe($endpoint);
         #waitForSpeech(1000);
-        #sayText("Hello " + $firstName + " , I'm Dasha, your personal finance assistant. How can I help you today?");
+        #sayText("Hello " + $firstName + " , I'm Dasha, your personal finance assistant. Before we begin, I need to confirm your identity.");
+        #sayText("Can you please confirm the answer to the security question.");
+        #sayText("What is your favourite fruit?");
         wait *;
     }
     transitions
     {
-        spend: goto spend_amount on #messageHasIntent("spend");
-        savings: goto savings_goal on #messageHasIntent("check_savings_goal");
+        confirm: goto confirm on #messageHasData("fruit");
     }
 }
 
@@ -61,7 +62,7 @@ node what_else
 {
     do
     {
-        #sayText("What else can I help you with?");
+        #sayText("What can I help you with?");
         wait *;
     }
     transitions

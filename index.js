@@ -45,6 +45,29 @@ const main = async () => {
     }
   });
 
+  app.setExternal("canGoToPlace", async(argv, conv) => {
+    // API call to get money sign
+    var dollarSignCount = 4;
+    
+    if (argv.place == "Montana's BBQ & Bar") {
+      dollarSignCount = 2;
+    }
+
+    var avgSpend = {1: 15, 2: 30, 3: 60, 4: 120}
+
+    var expectedSpend = avgSpend[dollarSignCount]
+
+    if (expectedSpend < 50)
+    {
+      await sendToFrontendOverWS("Can afford to go to place.");
+      return true;
+    }
+    else 
+    {
+      await sendToFrontendOverWS("Cannot afford to go to place.");
+      return false; 
+    }
+  });
   app.setExternal("calculateMonthlySavings", async(argv, conv) => {
     // assuming 78% take-home salary rate
     var monthlySavings = (parseInt(argv.salary) * 0.78) / 12 - parseInt(argv.monthlySpend);

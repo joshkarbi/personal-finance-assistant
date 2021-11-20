@@ -5,6 +5,7 @@ context {
 // declare external functions here 
 external function confirm(fruit: string): boolean;
 external function status(): string;
+external function canAffordExpense(cost: number): boolean;
 
 start node root {
     do {

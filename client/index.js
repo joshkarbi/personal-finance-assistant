@@ -28,6 +28,12 @@ const runCall = async (aor, name) => {
   });
 };
 
+// Receive info from conversation and display to user in frontend.
+wsClient = new WebSocket("ws://localhost:8080");
+wsClient.onmessage = function (event) {
+  console.log(event.data);
+}
+
 const main = async () => {
   const { aor, endpoint } = await getAccount();
   const user = await createUser(aor, endpoint);

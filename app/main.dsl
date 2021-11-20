@@ -4,14 +4,35 @@ context {
     // declare input variables here
     input firstName: string = "Dalton";  // fetch this from DB at some point
 
+    // inputs for check_savings_goal flow
+    input savingsGoal: {
+        item: string;
+        amount: string;
+        months: number;
+    } = {
+        item: "car",
+        amount: "20000",
+        months: 10
+    };
+    input salary: string = "80000";
+    input monthlySpend: string = "1500";
+    input cashSavings: string = "1000";
+    input investments: string = "5000";
+
     // declare storage variables here
     spendAmount: string = "unknown";
+    currentMonth: string = "11";
+    currentYear: string = "2021";
+    monthlySavings: string = "";
+    monthsToGoal: number = 0;
 }
 
 // declare external functions here 
 external function confirm(fruit: string): boolean;
 external function status(): string;
 external function canAffordExpense(cost: string): boolean;
+external function calculateMonthlySavings(salary: string, monthlySpend: string): string;
+external function calculateMonthsToGoal(monthlySavings: string, investments: string, cash: string, goalAmount: string): number;
 
 // welcome node
 start node root {
@@ -56,10 +77,28 @@ digression spend_amount {
 digression savings_goal {
     conditions { on #messageHasIntent("check_savings_goal"); }
     do {
+        #sayText("Sure, let me take a look at your goal of saving " + $savingsGoal.amount + " dollars for a " + $savingsGoal.item);
+        set $monthlySavings = external calculateMonthlySavings($salary, $monthlySpend);
+        #sayText("Based on your current salary of " + $salary + " dollars and monthly spend of " 
+        + $monthlySpend + " dollars, you are saving " + $monthlySavings + " dollars per month.");
+        set $monthsToGoal = external calculateMonthsToGoal($monthlySavings, $cashSavings, $investments, $savingsGoal.amount);
 
+        #sayText("Given that you also have " + $cashSavings + " dollars in savings, and " + $investments 
+        + " dollars in investments, if you continue saving this much you will reach your goal in " + #stringify($monthsToGoal) + " months!");
+        
+        if($monthsToGoal < $savingsGoal.months) {
+            #sayText("Keep up the good work and you'll be well on your way!");
+            
+        }
+        else {
+            #sayText("Let me know if you'd like to learn about strategies to help you save money.");
+        }
+        #sayText("Can I help you with anything else today?");
+        wait *;
     }
     transitions {
-
+        bye_then: goto bye_then on #messageHasIntent("no");
+        what_else: goto what_else on #messageHasIntent("yes");
     }
 }
 

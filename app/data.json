@@ -7,6 +7,11 @@
         "I want to spend (20)[spend_amount] dollars at Montanas"
       ]
     },
+    "check_savings_goal": {
+      "includes": [
+        "savings goal"
+      ]
+    },
     "yes": {
       "includes": [
         "yes",

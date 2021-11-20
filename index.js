@@ -2,15 +2,49 @@ const dasha = require("@dasha.ai/sdk");
 const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 const cors = require("cors");
+const wslib = require('ws');
+
 
 const expressApp = express();
 expressApp.use(express.json());
 expressApp.use(cors());
 
+const wss = new wslib.WebSocketServer({ port: 8080 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('Connected!');
+});
+
 const axios = require("axios").default;
+
+async function sendToFrontendOverWS(message) {
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+}
 
 const main = async () => {
   const app = await dasha.deploy(`${__dirname}/app`);
+
+  app.setExternal("canAffordExpense", async(args, conv) => {
+    if (args.cost < 100)
+    {
+
+      sendToFrontendOverWS("Can afford expense.");
+      return true;
+    }
+    else 
+    {
+      sendToFrontendOverWS("Cannot afford expense.");
+      return false; 
+    }
+  });
 
   app.setExternal("confirm", async(args, conv) => {
       console.log("collected fruit is " + args.fruit);

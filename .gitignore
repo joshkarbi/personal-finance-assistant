@@ -1,7 +1,7 @@
 /node_modules
 /dist
 .parcel-cache
-
+*.pem
 
 # Logs
 logs

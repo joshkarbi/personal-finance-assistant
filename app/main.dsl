@@ -1,5 +1,10 @@
 context {
     input endpoint: string;
+
+    // declare input variables here
+    input firstName: string = "Dalton";  // fetch this from DB at some point
+
+    // declare storage variables here
     spendAmount: string = "unknown";
 }
 
@@ -8,14 +13,23 @@ external function confirm(fruit: string): boolean;
 external function status(): string;
 external function canAffordExpense(cost: string): boolean;
 
+// welcome node
 start node root {
     do {
         #connectSafe($endpoint);
         #waitForSpeech(1000);
-        #sayText("Hello, I am Dasha, your personal finance assistant. How can I help you today?");
+        #sayText("Hello " + $firstName + " , I'm Dasha, your personal finance assistant. How can I help you today?");
         wait *;
     }
     transitions {
+    }
+}
+
+// this is the node to come back to if you want to do another transaction
+node what_else {
+    do {
+        #sayText("What else can I help you with?");
+        wait *;
     }
 }
 
@@ -35,7 +49,17 @@ digression spend_amount {
     }
     transitions {
         bye_then: goto bye_then on #messageHasIntent("no");
-        gotta_go: goto gotta_go on #messageHasIntent("yes");
+        what_else: goto what_else on #messageHasIntent("yes");
+    }
+}
+
+digression savings_goal {
+    conditions { on #messageHasIntent("check_savings_goal"); }
+    do {
+
+    }
+    transitions {
+
     }
 }
 
@@ -87,16 +111,9 @@ node approved {
     }
 }
 
-node gotta_go {
-    do {
-        #sayText("Too bad, I gotta go! Ciao! ");
-        exit;
-    }
-}
-
 node bye_then {
     do {
-        #sayText("Thank you and have a great day! Mazel tov!");
+        #sayText("Thank you and have a great day! Mazeltov!");
         exit;
     }
 }

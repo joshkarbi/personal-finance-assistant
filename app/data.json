@@ -7,6 +7,15 @@
         "I want to spend (20)[spend_amount] dollars at Montanas"
       ]
     },
+    "goToPlace": {
+      "includes": [
+        "Can i go to red lobster tonight",
+        "Is it okay to go with my friends to east dide mario's for lunch",
+        "Does the budget allow me to eat at montanas later",
+        "east side marios tonight for 8",
+        "Dinner at the Keg tomorrow"
+      ]
+    },
     "yes": {
       "includes": [
         "yes",
@@ -74,7 +83,6 @@
       ]
     }
 
-
   },
 
   "entities": {
@@ -84,37 +92,37 @@
         {
           "value": "4",
           "synonyms": [
-            "four"
+            "four", "4", "$4"
           ]
         },
         {
           "value": "27",
           "synonyms": [
-            "twenty seven"
+            "twenty seven", "27", "$27"
           ]
         },
         {
           "value": "30",
           "synonyms": [
-            "thirty"
+            "thirty", "$30", "30"
           ]
         },
         {
           "value": "40",
           "synonyms": [
-            "fourty"
+            "fourty", "40", "$40"
           ]
         },
         {
           "value": "50",
           "synonyms": [
-            "fifty"
+            "fifty", "50", "$50"
           ]
         },
         {
           "value": "115",
           "synonyms": [
-            "one hundred and fifteen", "one fifteen"
+            "one hundred and fifteen", "one fifteen", "115"
           ]
         }
       ],
@@ -126,6 +134,43 @@
         "Last time I went there, I spent (40)[spend_amount] dollars",
         "I would spend less than (50)[spend_amount] dollars",
         "I would never pay (115)[spend_amount] dollars"
+      ]
+    },
+    "place": {
+      "open_set": true,
+      "values": [
+        {
+          "value": "Montana's BBQ & Bar",
+          "synonyms": [
+            "Montana's BBQ and Bar", "Montana's"
+          ]
+        },
+        {
+          "value": "Red Lobster",
+          "synonyms": [
+            "The Red Lobster", "Red Lobster", "red lobster"
+          ]
+        },
+        {
+          "value": "East Side Mario's",
+          "synonyms": [
+            "east side marios", "East Side Mario", "Eastside marios"
+          ]
+        },
+        {
+          "value": "The Keg",
+          "synonyms": [
+            "the keg", "keg", "The Keg", "the Keg"
+          ]
+        }
+      ],
+      "includes": [
+        "Can I go to (Red Lobster)[place] tonight",
+        "Is it okay to go with my friends to (East Side Mario's)[place] for lunch",
+        "Does the budget allow me to eat at (Montana's BBQ and Bar)[place] later",
+        "(east side marios)[place] tonight for 8",
+        "Dinner at (The Keg)[place] tomorrow",
+        "Dinner at (the keg)[place] tomorrow"
       ]
     }
   }

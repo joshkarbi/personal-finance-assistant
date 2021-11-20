@@ -23,7 +23,7 @@ const axios = require("axios").default;
 
 async function sendToFrontendOverWS(message) {
   wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
+    if (client.readyState === wslib.WebSocket.OPEN) {
       client.send(message);
     }
   });
@@ -32,8 +32,8 @@ async function sendToFrontendOverWS(message) {
 const main = async () => {
   const app = await dasha.deploy(`${__dirname}/app`);
 
-  app.setExternal("canAffordExpense", async(args, conv) => {
-    if (args.cost < 100)
+  app.setExternal("canAffordExpense", async(argv, conv) => {
+    if (argv.cost < 100)
     {
       await sendToFrontendOverWS("Can afford expense.");
       return true;

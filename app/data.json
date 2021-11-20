@@ -2,6 +2,11 @@
   "version": "v2",
   "intents": 
   {
+    "spend": {
+      "includes": [
+        "I want to spend (20)[spend_amount] dollars at Montanas"
+      ]
+    },
     "yes": {
       "includes": [
         "yes",
@@ -72,58 +77,55 @@
 
   },
 
-
   "entities": {
-    "fruit": {
+    "spend_amount": {
       "open_set": true,
       "values": [
         {
-          "value": "strawberry",
+          "value": "4",
           "synonyms": [
-            "strawberry", "strawberries", "straw berry"
+            "four"
           ]
         },
         {
-          "value": "road runner",
+          "value": "27",
           "synonyms": [
-            "road runner", "rd runner", "roadrunner"
+            "twenty seven"
           ]
         },
         {
-          "value": "banana",
+          "value": "30",
           "synonyms": [
-            "banana", "bananas", "bananos"
+            "thirty"
+          ]
+        },
+        {
+          "value": "40",
+          "synonyms": [
+            "fourty"
+          ]
+        },
+        {
+          "value": "50",
+          "synonyms": [
+            "fifty"
 
           ]
         },
         {
-          "value": "plum",
+          "value": "115",
           "synonyms": [
-            "plum", "plums"
-
-          ]
-        },
-        {
-          "value": "peach",
-          "synonyms": [
-            "peach", "peaches"
-          ]
-        },
-        {
-          "value": "apple",
-          "synonyms": [
-            "apple", "apples"
+            "one hundred and fifteen", "one fifteen"
           ]
         }
       ],
       "includes": [
-        "I do love my (strawberry)[fruit]",
-        "My favorite fruit is (banana)[fruit]",
-        "Most days I prefer (plum)[fruit]",
-        "I would eat (peach)[fruit] every day for the rest of my life",
-        "Ah, what a question. (strawberry)[fruit] of course",
-        "I like (strawberry)[fruit] best of all"
-
+        "I usually spend (4)[spend_amount] dollars",
+        "A meal at that restaurant costs (27)[spend_amount] dollars",
+        "I would like to spend (30)[spend_amount] dollars",
+        "Last time I went there, I spent (40)[spend_amount] dollars",
+        "I would spend less than (50)[spend_amount] dollars",
+        "I would never pay (115)[spend_amount] dollars"
       ]
     }
   }

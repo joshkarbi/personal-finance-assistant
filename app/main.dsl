@@ -1,5 +1,6 @@
 context {
     input endpoint: string;
+    spendAmount: string = "unknown";
 }
 
 // declare external functions here 
@@ -10,11 +11,26 @@ start node root {
     do {
         #connectSafe($endpoint);
         #waitForSpeech(1000);
-        #sayText("Thank you for visitng the ACME Rockets and supplies website.");
-        #sayText(" I'm your artificially intelligent agent Dasha. How can I help you today?");
+        #sayText("Hello, I am Dasha, your personal finance assistant. How can I help you today?");
         wait *;
     }
     transitions {
+    }
+}
+
+digression spend_amount {
+    conditions { on #messageHasIntent("spend"); }
+    do {
+        set $spendAmount = #messageGetData("spend_amount")[0]?.value??"";
+        #log($spendAmount);
+        #log("Hello");
+        #sayText("I'm sorry, you can't afford to spend " + $spendAmount + " dollars. You are broke.");
+        #sayText("Can I help you with anything else today?");
+        wait *;
+    }
+    transitions {
+        bye_then: goto bye_then on #messageHasIntent("no");
+        gotta_go: goto gotta_go on #messageHasIntent("yes");
     }
 }
 
@@ -66,9 +82,16 @@ node approved {
     }
 }
 
+node gotta_go {
+    do {
+        #sayText("Too bad, I gotta go! Ciao! ");
+        exit;
+    }
+}
+
 node bye_then {
     do {
-        #sayText("Thank you and happy trails! ");
+        #sayText("Thank you and have a great day! Mazel tov!");
         exit;
     }
 }

@@ -4,7 +4,7 @@
   {
     "spend": {
       "includes": [
-        "I want to spend (20)[spend_amount] dollars at Montanas"
+        "Can I spend (20)[spend_amount] dollars at Subway"
       ]
     },
     "goToPlace": {
@@ -131,13 +131,11 @@
         }
       ],
       "includes": [
-        "I want to spend (200)[spend_amount] dollars at a restaurant",
+        "can I spend (4)[spend_amount] dollars",
         "I usually spend (4)[spend_amount] dollars",
         "A meal at that restaurant costs (27)[spend_amount] dollars",
         "I would like to spend (30)[spend_amount] dollars",
-        "Last time I went there, I spent (40)[spend_amount] dollars",
-        "I would spend less than (50)[spend_amount] dollars",
-        "I would never pay (115)[spend_amount] dollars"
+        "Last time I went there, I spent (40)[spend_amount] dollars"
       ]
     },
     "place": {

@@ -51,6 +51,8 @@ start node root
     }
     transitions
     {
+        spend: goto spend_amount on #messageHasIntent("spend");
+        savings: goto savings_goal on #messageHasIntent("check_savings_goal");
     }
 }
 
@@ -62,14 +64,16 @@ node what_else
         #sayText("What else can I help you with?");
         wait *;
     }
+    transitions
+    {
+        spend: goto spend_amount on #messageHasIntent("spend");
+        savings: goto savings_goal on #messageHasIntent("check_savings_goal");
+        place: goto place on #messageHasIntent("goToPlace");
+    }
 }
 
-digression spend_amount
+node spend_amount
 {
-    conditions
-    {
-        on #messageHasIntent("spend");
-    }
     do
     {
         set $spendAmount = #messageGetData("spend_amount")[0]?.value??"";
@@ -92,12 +96,8 @@ digression spend_amount
     }
 }
 
-digression place
+node place
 {
-    conditions
-    {
-        on #messageHasIntent("goToPlace");
-    }
     do
     {
         set $place = #messageGetData("place")[0]?.value??"";
@@ -120,8 +120,7 @@ digression place
     }
 }
 
-digression savings_goal {
-    conditions { on #messageHasIntent("check_savings_goal"); }
+node savings_goal {
     do {
         #sayText("Sure, let me take a look at your goal of saving " + $savingsGoal.amount + " dollars for a " + $savingsGoal.item);
         set $monthlySavings = external calculateMonthlySavings($salary, $monthlySpend);

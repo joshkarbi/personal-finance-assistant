@@ -6,7 +6,7 @@ context {
 // declare external functions here 
 external function confirm(fruit: string): boolean;
 external function status(): string;
-external function canAffordExpense(cost: number): boolean;
+external function canAffordExpense(cost: string): boolean;
 
 start node root {
     do {
@@ -23,9 +23,13 @@ digression spend_amount {
     conditions { on #messageHasIntent("spend"); }
     do {
         set $spendAmount = #messageGetData("spend_amount")[0]?.value??"";
-        #log($spendAmount);
-        #log("Hello");
-        #sayText("I'm sorry, you can't afford to spend " + $spendAmount + " dollars. You are broke.");
+        var canAfford = external canAffordExpense($spendAmount);
+        if (canAfford) {
+            #sayText("Go for it! You can afford to spend " + $spendAmount + " dollars!");
+        }
+        else {
+            #sayText("I'm sorry, you can't afford to spend " + $spendAmount + " dollars. You are broke.");
+        }
         #sayText("Can I help you with anything else today?");
         wait *;
     }

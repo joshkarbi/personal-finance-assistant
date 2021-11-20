@@ -109,7 +109,6 @@
           "value": "50",
           "synonyms": [
             "fifty"
-
           ]
         },
         {
@@ -120,6 +119,7 @@
         }
       ],
       "includes": [
+        "I want to spend (200)[spend_amount] dollars at a restaurant",
         "I usually spend (4)[spend_amount] dollars",
         "A meal at that restaurant costs (27)[spend_amount] dollars",
         "I would like to spend (30)[spend_amount] dollars",

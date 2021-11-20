@@ -33,7 +33,7 @@ const main = async () => {
   const app = await dasha.deploy(`${__dirname}/app`);
 
   app.setExternal("canAffordExpense", async(argv, conv) => {
-    if (argv.cost < 100)
+    if (parseInt(argv.cost) < 100)
     {
       await sendToFrontendOverWS("Can afford expense.");
       return true;

@@ -68,6 +68,16 @@ const main = async () => {
       return false; 
     }
   });
+  app.setExternal("calculateMonthlySavings", async(argv, conv) => {
+    // assuming 78% take-home salary rate
+    var monthlySavings = (parseInt(argv.salary) * 0.78) / 12 - parseInt(argv.monthlySpend);
+    return monthlySavings.toString();
+  })
+
+  app.setExternal("calculateMonthsToGoal", async(argv, conv) => {
+    var monthsToGoal = (parseInt(argv.goalAmount) - (parseInt(argv.investments) + parseInt(argv.cash))) / parseInt(argv.monthlySavings);
+    return Math.round(monthsToGoal);
+  })
 
   app.setExternal("confirm", async(args, conv) => {
       console.log("collected fruit is " + args.fruit);

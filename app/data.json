@@ -12,8 +12,12 @@
         "Can i go to red lobster tonight",
         "Is it okay to go with my friends to east dide mario's for lunch",
         "Does the budget allow me to eat at montanas later",
-        "east side marios tonight for 8",
         "Dinner at the Keg tomorrow"
+      ]
+    },
+    "check_savings_goal": {
+      "includes": [
+        "savings goal"
       ]
     },
     "yes": {

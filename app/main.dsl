@@ -125,7 +125,21 @@ node investment_involvement
         )[0]?.value??"";
         if (involvement == "active")
         {
-            #sayText("Okay, for active investors I recommend Scotia eye Trade, where you can see directly into your invesments. I'm a bit of an investor myself, would you like some tips?");
+            #sayText("Okay, for active investors I recommend Scotia eye Trade, where you have control over your investments.");
+            var age = external getAge();
+            if (age < 25)
+            {
+                #sayText("Given that you are less than 25 and have a long time horizon to invest I recommend buying Scotia Global Growth ETF");
+            }
+            else if( age > 25 && age <= 50)
+            {
+                #sayText("Given that you are between 25 and 50 and have a need for growth but wealth stability I recommend buying Scotia Large CAP ETF");
+            }
+            else
+            {
+                #sayText("Given that you are greater than than 25 and will be requiring funds soon for retirement I recommend buying Scotiabank's Low Beta ETF");
+            }
+            #sayText("Is there anything else I can help you with today?");
             wait *;
         }
         else
@@ -135,23 +149,8 @@ node investment_involvement
     }
     transitions
     {
-        what_else: goto what_else on #messageHasIntent("no");
-        tips: goto tips on #messageHasIntent("yes");
-    }
-}
-
-node tips
-{
-    do
-    {
-        #sayText("Okay! My advice is simple. Buy GameStop, hold, and watch it go to the MOOOOON!");
-        #sayText("Can I help you with anything else today?");
-        wait *;
-    }
-    transitions
-    {
         bye_then: goto bye_then on #messageHasIntent("no");
-        what_else: goto what_else on #messageHasIntent("yes");
+        tips: goto what_else on #messageHasIntent("yes");
     }
 }
 
@@ -267,37 +266,6 @@ node restaurantRecommend
     }
 }
 
-digression invest
-{
-    conditions
-    {
-        on #messageHasIntent("invest");
-    }
-    do
-    {
-        var age = external getAge();
-        if (age < 25)
-        {
-            #sayText("Given that you are less than 25 and have a long time horizon to invest I recommend buying Scotia Global Growth ETF");
-        }
-        else if( age > 25 && age <= 50)
-        {
-            #sayText("Given that you are between 25 and 50 and have a need for growth but wealth stability I recommend buying Scotia Large CAP ETF");
-        }
-        else
-        {
-            #sayText("Given that you are greater than  than 25 and will be requiring funds soon for retirement I recommend buying Scotiabank's Low Beta ETF");
-        }
-        #sayText("Is there anything else I can help you with today?");
-        wait *;
-    }
-    transitions
-    {
-        bye_then: goto bye_then on #messageHasIntent("no");
-        what_else: goto what_else on #messageHasIntent("yes");
-    }
-}
-
 node savings_goal
 {
     do
@@ -389,28 +357,6 @@ node bye_then
     do
     {
         #sayText("Thank you and have a great day!");
-        exit;
-    }
-}
-
-node can_help
-{
-    do
-    {
-        #sayText("Right. How can I help you? ");
-        wait*;
-    }
-}
-
-digression bye
-{
-    conditions
-    {
-        on #messageHasIntent("bye");
-    }
-    do
-    {
-        #sayText("Thank you goodbye! ");
         exit;
     }
 }

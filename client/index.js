@@ -1,12 +1,11 @@
 import { Web } from "sip.js";
 
-const protocol = location.protocol;
-const hostname = location.hostname
-const api = `${protocol}://${hostname}:8000`;
+const api = `http://localhost:8000`;
 const runButton = document.getElementById("runButton");
 const hangupButton = document.getElementById("hangupButton");
 
 const getAccount = async () => {
+  console.log("Fetching SIP at", `${api}/sip`);
   const response = await fetch(`${api}/sip`);
   const { aor, endpoint } = await response.json();
   return { aor, endpoint };
@@ -19,8 +18,12 @@ const createUser = async (aor, server) => {
   return user;
 };
 
+
 const runCall = async (aor, name) => {
   const data = { aor, name };
+  console.log(data);
+
+  console.log("Running call");
   await fetch(`${api}/call`, {
     method: "POST",
     headers: {
@@ -28,11 +31,13 @@ const runCall = async (aor, name) => {
     },
     body: JSON.stringify(data),
   });
+  console.log("Call POST done");
 };
 
 // Receive info from conversation and display to user in frontend.
 
 const main = async () => {
+  console.log("Hello");
   const { aor, endpoint } = await getAccount();
   const user = await createUser(aor, endpoint);
 
@@ -69,4 +74,5 @@ const main = async () => {
   });
 };
 
+console.log("Index.js started")
 main();

@@ -75,7 +75,7 @@ const main = async () => {
 
     var dailyBudget = parseInt(clientData.monthlySpend) / 30
 
-    if (dailyBudget - expectedSpend > 10000)
+    if (expectedSpend > 20)
     {
       await sendToFrontendOverWS("Can afford to go to place.");
       return true;

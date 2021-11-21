@@ -32,11 +32,11 @@ async function sendToFrontendOverWS(message) {
 }
 
 const main = async () => {
-  const app = await dasha.deploy(`${__dirname}/app`, {
-    groupName: "Default",
-    account: { server: "app.us.dasha.ai", apiKey: await fs.readFile('.dasha').toString()},
-  });
-
+  // const app = await dasha.deploy(`${__dirname}/app`, {
+  //   groupName: "Default",
+  //   account: { server: "app.us.dasha.ai", apiKey: await fs.readFile('.dasha').toString()},
+  // });
+  const app = await dasha.deploy(`${__dirname}/app`);
   app.setExternal("grabClientInfo", async(argv, conv) => {
     return await dbUtils.retrieveClientInfo(args.secretWord);
   });

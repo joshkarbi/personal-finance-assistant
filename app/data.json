@@ -24,6 +24,11 @@
         "savings goal"
       ]
     },
+    "investment_advice": {
+      "includes": [
+        "investment advice"
+      ]
+    },
     "yes": {
       "includes": [
         "yes",

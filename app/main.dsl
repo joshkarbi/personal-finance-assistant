@@ -85,6 +85,16 @@ node what_else
     {
         spend: goto spend_amount on #messageHasIntent("spend");
         savings: goto savings_goal on #messageHasIntent("check_savings_goal");
+        investment_advice: goto investment_advice on #messageHasIntent("investment_advice");
+    }
+}
+
+node investment_advice {
+    do {
+        #sayText("Sure!");
+    }
+    transitions {
+        
     }
 }
 

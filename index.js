@@ -65,7 +65,7 @@ const main = async () => {
   });
 
   app.setExternal("canGoToPlace", async(argv, conv) => {
-    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.place + "+london+canada&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.place + "+london+canada&key={API KEY}";
     const res = await axios.get(url);
     var priceLevel = res.data.results[0].price_level;
 
@@ -90,7 +90,7 @@ const main = async () => {
   app.setExternal("restaurantRecommend", async(argv, conv) => {
     var distance = (parseInt(argv.distance) * 1000).toString();
     console.log(argv.typeRestaurant);
-    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.typeRestaurant + "+restaurant+london+canada&maxprice=" + argv.maxMoneySigns + "&radius=" + distance + "&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.typeRestaurant + "+restaurant+london+canada&maxprice=" + argv.maxMoneySigns + "&radius=" + distance + "&key={API KEY}";
     const res = await axios.get(url);
     var restaurantName = res.data.results[0].name;
     return restaurantName;

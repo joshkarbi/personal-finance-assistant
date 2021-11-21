@@ -3,6 +3,7 @@
 .parcel-cache
 
 *.pem
+*.DS_Store
 
 # Logs
 logs

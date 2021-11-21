@@ -73,7 +73,6 @@ node what_else
     {
         spend: goto spend_amount on #messageHasIntent("spend");
         savings: goto savings_goal on #messageHasIntent("check_savings_goal");
-        place: goto place on #messageHasIntent("goToPlace");
     }
 }
 
@@ -101,7 +100,7 @@ node spend_amount
     }
 }
 
-node place
+digression place
 {
     conditions
     {

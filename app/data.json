@@ -4,12 +4,9 @@
   {
     "spend": {
       "includes": [
-<<<<<<< HEAD
         "spend",
-        "spends"
-=======
+        "spends",
         "Can I spend (20)[spend_amount] dollars at Subway"
->>>>>>> 69b849650c2719ac6dad703e4411ea3e9ac1c080
       ]
     },
     "go_to_place": {

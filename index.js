@@ -34,7 +34,7 @@ async function sendToFrontendOverWS(message) {
 const main = async () => {
   const app = await dasha.deploy(`${__dirname}/app`, {
     groupName: "Default",
-    account: { server: "app.us.dasha.ai", apiKey: await fs.readFile('.dasha').toString()},
+    account: { server: "app.us.dasha.ai", apiKey: process.env.DASHA_APIKEY},
   });
 
   app.setExternal("grabClientInfo", async(argv, conv) => {

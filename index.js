@@ -32,9 +32,14 @@ async function sendToFrontendOverWS(message) {
 }
 
 const main = async () => {
+  var dashaKey = process.env.DASHA_APIKEY;
+  if (process.env.PRODUCTION != undefined)
+  {
+    dashaKey = await fs.readFile("/etc/.dasha");
+  } 
   const app = await dasha.deploy(`${__dirname}/app`, {
     groupName: "Default",
-    account: { server: "app.us.dasha.ai", apiKey: process.env.DASHA_APIKEY},
+    account: { server: "app.us.dasha.ai", apiKey: dashaKey},
   });
 
   app.setExternal("grabClientInfo", async(argv, conv) => {

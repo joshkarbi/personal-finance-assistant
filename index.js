@@ -22,6 +22,11 @@ wss.on('connection', function connection(ws) {
 const axios = require("axios").default;
 const { ObjectId } = require("mongodb");
 
+// Will store client data so after the database is contacted
+// when confirming identity the income/budget data can be used without
+// having to request such info again
+var clientData;
+
 async function sendToFrontendOverWS(message) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === wslib.WebSocket.OPEN) {
@@ -46,19 +51,18 @@ const main = async () => {
     }
   });
 
-  
-
   app.setExternal("canGoToPlace", async(argv, conv) => {
-    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.place + "+london+canada&fields=price_level&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.place + "+london+canada&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
     const res = await axios.get(url);
     var priceLevel = res.data.results[0].price_level;
-    res.data
 
     var avgSpend = {1: 15, 2: 25, 3: 50, 4: 100}
 
     var expectedSpend = avgSpend[priceLevel]
 
-    if (expectedSpend < 25)
+    var dailyBudget = parseInt(clientData.monthlySpend) / 30
+
+    if (dailyBudget - expectedSpend > 10000)
     {
       await sendToFrontendOverWS("Can afford to go to place.");
       return true;
@@ -69,6 +73,21 @@ const main = async () => {
       return false; 
     }
   });
+
+  app.setExternal("restaurantRecommend", async(argv, conv) => {
+    var distance = (parseInt(argv.distance) * 1000).toString();
+    console.log(argv.typeRestaurant);
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.typeRestaurant + "+restaurant+london+canada&maxprice=" + argv.maxMoneySigns + "&radius=" + distance + "&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
+    const res = await axios.get(url);
+    var restaurantName = res.data.results[0].name;
+    return restaurantName;
+  });
+
+  app.setExternal("getAge", async(argv, conv) => {
+    return clientData.age;
+  });
+
+
   app.setExternal("calculateMonthlySavings", async(argv, conv) => {
     // assuming 78% take-home salary rate
     var monthlySavings = (parseInt(argv.salary) * 0.78) / 12 - parseInt(argv.monthlySpend);
@@ -82,6 +101,7 @@ const main = async () => {
 
   app.setExternal("confirm", async(args, conv) => {
     var clientInfo = await dbUtils.retrieveClientInfo(args.secretWord);
+    clientData = clientInfo;
     console.log("CLIENT INFO", clientInfo);
     if (clientInfo == null)
     {

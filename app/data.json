@@ -9,14 +9,23 @@
         "Can I spend (20)[spend_amount] dollars at Subway"
       ]
     },
-    "go_to_place": {
+    "invest": {
       "includes": [
-        "the keg",
-        "mcdonalds",
-        "mcdonalds",
-        "mcdonald",
-        "McDonald",
-        "mcdonald's"
+        "invest",
+        "invest in"
+      ]
+    },
+    "distance": {
+      "includes": [
+        "1",
+        "1.",
+        "1 kilometres",
+        "5",
+        "5.",
+        "5 kilometre",
+        "10",
+        "10.",
+        "10 kilometres"
       ]
     },
     "check_savings_goal": {
@@ -228,6 +237,82 @@
         "I like (strawberry)[fruit] best of all"
 
       ]
+    },
+    "distance": {
+      "open_set": true,
+      "values": [
+        {
+          "value": "5",
+          "synonyms": [
+            "5 kilometres", "5", "5."
+          ]
+        },
+        {
+          "value": "100",
+          "synonyms": [
+            "100 kilometres", "100", "100."
+          ]
+        },
+        {
+          "value": "10",
+          "synonyms": [
+            "10 kilometres", "10", "10."
+          ]
+        },
+        {
+          "value": "2",
+          "synonyms": [
+            "2 kilometres", "2", "2."
+          ]
+        }
+      ],
+      "includes": [
+        "The farthest distance is (5)[distance] kilometres",
+        "I will not go further than (5)[distance] kilometres",
+        "(10)[distance] kilometres max",
+        "No more than (10)[distance]",
+        "(10)[distance] max."
+      ]
+    },
+    "restaurantType": {
+      "open_set": true,
+      "values": [
+        {
+          "value": "mexican",
+          "synonyms": [
+            "mexican", "Mexican", "mexican.", "Mexican."
+          ]
+        },
+        {
+          "value": "indian",
+          "synonyms": [
+            "indian", "Indian", "indian.", "Indian."
+          ]
+        },
+        {
+          "value": "sushi",
+          "synonyms": [
+            "sushi", "Sushi", "sushi.", "Sushi."
+          ]
+        },
+        {
+          "value": "italian",
+          "synonyms": [
+            "italian", "Italian", "italian.", "Italian."
+          ]
+        }
+      ],
+      "includes": [
+        "Well I'm thinking about some (italian)[restaurantType] today.",
+        "I could really go for (indian)[restaurantType] food",
+        "(sushi)[restaurantType] would be great.",
+        "(mexican)[restaurantType] sounds nice.",
+        "(italian)[restaurantType] is good with me.",
+        "(indian)[restaurantType] is my favorite",
+        "I am craving (sushi)[restaurantType]",
+        "Let's have some (mexican)[restaurantType]"
+      ]
     }
+    
   }
 }

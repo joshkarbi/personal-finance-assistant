@@ -1,8 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
-  args: ['build', '-t', 'personal-finance-assistant', '--build-arg', 'MONGODB_CREDS=$$MONGODB_CREDS', '--build-arg', 'DASHA_APIKEY=$$DASHA_API_KEY', .']
-  secretEnv: ['DASHA_APIKEY', 'MONGODB_CREDS']
 availableSecrets:
   secretManager:
   - versionName: projects/dotted-furnace-332721/secrets/dasha-api-key/versions/1

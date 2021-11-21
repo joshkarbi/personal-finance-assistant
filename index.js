@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 const cors = require("cors");
 const wslib = require('ws');
+const fs = require('fs');
 const dbUtils = require('./utils/db');
 
 const expressApp = express();
@@ -36,7 +37,19 @@ async function sendToFrontendOverWS(message) {
 }
 
 const main = async () => {
-  const app = await dasha.deploy(`${__dirname}/app`);
+  var dashaKey = process.env.DASHA_APIKEY;
+  if (process.env.PRODUCTION != undefined)
+  {
+    dashaKey = await fs.readFile("/secrets/.dasha");
+  } 
+  const app = await dasha.deploy(`${__dirname}/app`, {
+    groupName: "Default",
+    account: { server: "app.us.dasha.ai", apiKey: dashaKey},
+  });
+
+  app.setExternal("grabClientInfo", async(argv, conv) => {
+    return await dbUtils.retrieveClientInfo(args.secretWord);
+  });
 
   app.setExternal("canAffordExpense", async(argv, conv) => {
     if (parseInt(argv.cost) < 100)
@@ -89,13 +102,15 @@ const main = async () => {
 
 
   app.setExternal("calculateMonthlySavings", async(argv, conv) => {
-    // assuming 78% take-home salary rate
-    var monthlySavings = (parseInt(argv.salary) * 0.78) / 12 - parseInt(argv.monthlySpend);
-    return monthlySavings.toString();
+    // assuming 75% take-home salary rate
+    var monthlySavings = ((argv.grossAnnualSalary * 0.75) / 12) - argv.monthlySpend;
+    console.log(argv.grossAnnualSalary)
+    console.log(argv.monthlySpend)
+    return monthlySavings;
   })
 
   app.setExternal("calculateMonthsToGoal", async(argv, conv) => {
-    var monthsToGoal = (parseInt(argv.goalAmount) - (parseInt(argv.investments) + parseInt(argv.cash))) / parseInt(argv.monthlySavings);
+    var monthsToGoal = (parseInt(argv.goalAmount) - (parseInt(argv.investments) + parseInt(argv.cash))) / argv.monthlySavings;
     return Math.round(monthsToGoal);
   })
 
@@ -113,24 +128,11 @@ const main = async () => {
     }
   });
 
-  app.setExternal("getClientName", async(args, conv) => {
+  app.setExternal("getClientInfo", async(args, conv) => {
     var clientInfo = await dbUtils.retrieveClientInfo(args.secretWord);
-    return clientInfo.name;
-  });
-
-// External function check status 
-  app.setExternal("status", async(args, conv) => {
-
-    const res = await axios.post( "http://ptsv2.com/t/dasha-test/post");
-    console.log(" JSON data from API ==>", res.data);
-
-    const receivedFruit = res.data.favoriteFruit;
-    console.log("status is  ==>", res.data.status);
-
-    if (res.data.status = "approved")
-    return("Congratulations Mr. Coyote. Your application is approved. You can now buy anything you like at the desert ACME shop by the big cactus."); 
-    else 
-    return("Apologies Mr. Coyote. Your application is not approved. ");
+    console.log("HERE");
+    console.log(clientInfo);
+    return clientInfo;
   });
 
   await app.start({ concurrency: 10 });
@@ -161,8 +163,9 @@ const main = async () => {
     await conv.execute();
   });
 
-  const server = expressApp.listen(8000, () => {
-    console.log("Api started on port 8000.");
+  const API_PORT = process.env.PORT || 8000
+  const server = expressApp.listen(API_PORT, () => {
+    console.log("Api started on port", API_PORT, ".");
   });
 
   process.on("SIGINT", () => server.close());
@@ -173,12 +176,3 @@ const main = async () => {
 };
 
 main();
-// const test = async() => {
-//   var clientInfo = await dbUtils.retrieveClientInfo("bananas");
-//   console.log(clientInfo);
-//   await dbUtils.updateClientSecretWord(new ObjectId("619983efaae1fe493b863481"),"banana");
-//   clientInfo = await dbUtils.retrieveClientInfo("banana");
-//   console.log(clientInfo);
-// };
-
-// test()

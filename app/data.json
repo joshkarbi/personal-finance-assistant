@@ -9,6 +9,11 @@
         "Can I spend (20)[spend_amount] dollars at Subway"
       ]
     },
+    "advice": {
+      "includes": [
+        "investment advice"
+      ]
+    },
     "invest": {
       "includes": [
         "invest",
@@ -31,6 +36,11 @@
     "check_savings_goal": {
       "includes": [
         "savings goal"
+      ]
+    },
+    "investment_advice": {
+      "includes": [
+        "investment advice"
       ]
     },
     "yes": {
@@ -149,6 +159,23 @@
         "A meal at that restaurant costs (27)[spend_amount] dollars",
         "I would like to spend (30)[spend_amount] dollars",
         "Last time I went there, I spent (40)[spend_amount] dollars"
+      ]
+    },
+    "involvement": {
+      "open_set": false,
+      "values": [
+        {
+          "value": "passive",
+          "synonyms": [
+            "passive"
+          ]
+        },
+        {
+          "value": "active",
+          "synonyms": [
+            "active"
+          ]
+        }
       ]
     },
     "place": {

@@ -2,8 +2,8 @@
   "default": {
     "voiceInfo": {
       "lang": "en-US",
-      "speaker": "default",
-      "speed": 1.0
+      "speaker": "Linda",
+      "speed": 0.9
     },
 
     "phrases": 

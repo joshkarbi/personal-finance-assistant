@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 const cors = require("cors");
 const wslib = require('ws');
+const fs = require('fs');
 const dbUtils = require('./utils/db');
 
 const expressApp = express();
@@ -31,7 +32,14 @@ async function sendToFrontendOverWS(message) {
 }
 
 const main = async () => {
-  const app = await dasha.deploy(`${__dirname}/app`);
+  const app = await dasha.deploy(`${__dirname}/app`, {
+    groupName: "Default",
+    account: { server: "app.us.dasha.ai", apiKey: await fs.readFile('.dasha').toString()},
+  });
+
+  app.setExternal("grabClientInfo", async(argv, conv) => {
+    return await dbUtils.retrieveClientInfo(args.secretWord);
+  });
 
   app.setExternal("canAffordExpense", async(argv, conv) => {
     if (parseInt(argv.cost) < 100)

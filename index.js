@@ -54,7 +54,7 @@ const main = async () => {
     var priceLevel = res.data.results[0].price_level;
     res.data
 
-    var avgSpend = {1: 15, 2: 30, 3: 60, 4: 120}
+    var avgSpend = {1: 15, 2: 25, 3: 50, 4: 100}
 
     var expectedSpend = avgSpend[priceLevel]
 

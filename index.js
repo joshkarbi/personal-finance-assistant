@@ -139,8 +139,9 @@ const main = async () => {
     await conv.execute();
   });
 
-  const server = expressApp.listen(8000, () => {
-    console.log("Api started on port 8000.");
+  const API_PORT = process.env.PORT || 8000
+  const server = expressApp.listen(API_PORT, () => {
+    console.log("Api started on port", API_PORT, ".");
   });
 
   process.on("SIGINT", () => server.close());

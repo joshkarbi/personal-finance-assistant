@@ -209,6 +209,7 @@ node confirm
             set $clientInfo = external getClientInfo(fruit);
 
             #sayText("Hi, " + $clientInfo.name + "! Your identity is confirmed. Let me just check your status. ");
+
             goto approved;
         }
         else
@@ -220,25 +221,8 @@ node confirm
     
     transitions
     {
-        approved: goto approved;
+        approved: goto what_else;
         confirm: goto confirm on #messageHasData("fruit");
-    }
-}
-
-node approved
-{
-    do
-    {
-        var status = external status();
-        #sayText(status);
-        #sayText("Anything else I can help you with today?");
-        wait *;
-    }
-    
-    transitions
-    {
-        can_help: goto can_help on #messageHasIntent("yes");
-        bye_then: goto bye_then on #messageHasIntent("no");
     }
 }
 
@@ -247,28 +231,6 @@ node bye_then
     do
     {
         #sayText("Thank you and have a great day! Mazeltov!");
-        exit;
-    }
-}
-
-node can_help
-{
-    do
-    {
-        #sayText("Right. How can I help you? ");
-        wait*;
-    }
-}
-
-digression bye
-{
-    conditions
-    {
-        on #messageHasIntent("bye");
-    }
-    do
-    {
-        #sayText("Thank you and happy trails! ");
         exit;
     }
 }

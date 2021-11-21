@@ -388,7 +388,7 @@ node bye_then
 {
     do
     {
-        #sayText("Thank you and have a great day! Mazeltov!");
+        #sayText("Thank you and have a great day!");
         exit;
     }
 }

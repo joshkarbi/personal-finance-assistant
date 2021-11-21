@@ -7,7 +7,13 @@ context
     // declare storage variables here
     spendAmount: string = "unknown";
     place: string = "unknown";
-    
+    clientInfo: {
+        item: string; name: string; age: number; 
+        grossAnnualSalary: number; monthlySpend: number;
+        cashSavings: number; secretWord: string;
+    } = {item: "unknown", name: "unknown", age: 1, grossAnnualSalary: 0, monthlySpend: 0,
+        cashSavings: 0, secretWord: "unknown"};
+
     // inputs for check_savings_goal flow
     input savingsGoal:
     {
@@ -42,6 +48,12 @@ external function canAffordExpense(cost: string): boolean;
 external function canGoToPlace(place: string): boolean;
 external function calculateMonthlySavings(salary: string, monthlySpend: string): string;
 external function calculateMonthsToGoal(monthlySavings: string, investments: string, cash: string, goalAmount: string): number;
+external function getClientInfo(secretWord: string): {
+                                                    item: string; name: string; age: number; 
+                                                    grossAnnualSalary: number; monthlySpend: number;
+                                                    cashSavings: number; secretWord: string;
+                                                };
+
 
 // welcome node
 start node root
@@ -189,11 +201,14 @@ node confirm
             value: true
         }
         )[0]?.value??"";
+
+
         var response = external confirm(fruit);
         if (response)
         {
-            var name = external getClientName(fruit);
-            #sayText("Hi, " + name + "! Your identity is confirmed. Let me just check your status. ");
+            set $clientInfo = external getClientInfo(fruit);
+
+            #sayText("Hi, " + $clientInfo.name + "! Your identity is confirmed. Let me just check your status. ");
             goto approved;
         }
         else

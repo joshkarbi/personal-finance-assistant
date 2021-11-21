@@ -98,21 +98,6 @@ const main = async () => {
     return clientInfo.name;
   });
 
-// External function check status 
-  app.setExternal("status", async(args, conv) => {
-
-    const res = await axios.post( "http://ptsv2.com/t/dasha-test/post");
-    console.log(" JSON data from API ==>", res.data);
-
-    const receivedFruit = res.data.favoriteFruit;
-    console.log("status is  ==>", res.data.status);
-
-    if (res.data.status = "approved")
-    return("Congratulations Mr. Coyote. Your application is approved. You can now buy anything you like at the desert ACME shop by the big cactus."); 
-    else 
-    return("Apologies Mr. Coyote. Your application is not approved. ");
-  });
-
   await app.start({ concurrency: 10 });
 
   expressApp.get("/sip", async (req, res) => {
@@ -153,12 +138,3 @@ const main = async () => {
 };
 
 main();
-// const test = async() => {
-//   var clientInfo = await dbUtils.retrieveClientInfo("bananas");
-//   console.log(clientInfo);
-//   await dbUtils.updateClientSecretWord(new ObjectId("619983efaae1fe493b863481"),"banana");
-//   clientInfo = await dbUtils.retrieveClientInfo("banana");
-//   console.log(clientInfo);
-// };
-
-// test()

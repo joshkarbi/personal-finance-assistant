@@ -17,6 +17,9 @@ COPY utils/ /app/utils/
 COPY client/ /app/client/
 COPY app/ /app/app/
 
+RUN echo $MONGODB_CREDS > X509.pem
+RUN echo $DASHA_APIKEY > .dasha
+
 EXPOSE 8080
 EXPOSE 8000
 EXPOSE 1234

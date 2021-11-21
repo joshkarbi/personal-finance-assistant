@@ -28,26 +28,25 @@ context
         months: 10
     }
     ;
-    input salary: string = "80000";
-    input monthlySpend: string = "1500";
+    // input salary: string = "80000";
+    // input monthlySpend: string = "1500";
     input cashSavings: string = "1000";
     input investments: string = "5000";
     
     // declare storage variables here
     currentMonth: string = "11";
     currentYear: string = "2021";
-    monthlySavings: string = "";
+    monthlySavings: number = 0;
     monthsToGoal: number = 0;
 }
 
 // declare external functions here
 external function confirm(secretWord: string): boolean;
-external function getClientName(secretWord: string): string;
 external function status(): string;
 external function canAffordExpense(cost: string): boolean;
 external function canGoToPlace(place: string): boolean;
-external function calculateMonthlySavings(salary: string, monthlySpend: string): string;
-external function calculateMonthsToGoal(monthlySavings: string, investments: string, cash: string, goalAmount: string): number;
+external function calculateMonthlySavings(grossAnnualSalary: number, monthlySpend: number): number;
+external function calculateMonthsToGoal(monthlySavings: number, investments: string, cash: string, goalAmount: string): number;
 external function getClientInfo(secretWord: string): {
                                                     item: string; name: string; age: number; 
                                                     grossAnnualSalary: number; monthlySpend: number;
@@ -85,16 +84,51 @@ node what_else
     {
         spend: goto spend_amount on #messageHasIntent("spend");
         savings: goto savings_goal on #messageHasIntent("check_savings_goal");
-        investment_advice: goto investment_advice on #messageHasIntent("investment_advice");
+        investment_advice: goto investment_advice on #messageHasIntent("advice");
     }
 }
 
 node investment_advice {
     do {
-        #sayText("Sure!");
+        #sayText("Sure! Let me start with a few basic questions to see what type of investments would be suitable for you.");
+        #sayText("Would you like to be active or passive in managing your investments?");
+        wait *;
     }
     transitions {
-        
+        investment_involvement: goto investment_involvement on #messageHasData("involvement");
+    }
+}
+
+node investment_involvement {
+    do {
+        var involvement = #messageGetData("involvement",
+                {
+                    value: true
+                }
+                )[0]?.value??"";
+        if (involvement == "active") {
+            #sayText("Okay, for active investors I recommend Scotia eye Trade, where you can see directly into your invesments. I'm a bit of an investor myself, would you like some tips?");
+            wait *;
+        } else {
+            // nothing for now
+        }
+
+    }
+    transitions {
+        what_else: goto what_else on #messageHasIntent("no");
+        tips: goto tips on #messageHasIntent("yes");
+    }
+}
+
+node tips {
+    do {
+        #sayText("Okay! My advice is simple. Buy GameStop, hold, and watch it go to the MOOOOON!");
+        #sayText("Can I help you with anything else today?");
+        wait *;
+    }
+    transitions {
+        bye_then: goto bye_then on #messageHasIntent("no");
+        what_else: goto what_else on #messageHasIntent("yes");
     }
 }
 
@@ -155,9 +189,9 @@ node savings_goal
     do
     {
         #sayText("Sure, let me take a look at your goal of saving " + $savingsGoal.amount + " dollars for a " + $savingsGoal.item);
-        set $monthlySavings = external calculateMonthlySavings($salary, $monthlySpend);
-        #sayText("Based on your current salary of " + $salary + " dollars and monthly spend of "
-        + $monthlySpend + " dollars, you are saving " + $monthlySavings + " dollars per month.");
+        set $monthlySavings = external calculateMonthlySavings($clientInfo.grossAnnualSalary, $clientInfo.monthlySpend);
+        #sayText("Based on your current salary of " + #stringify($clientInfo.grossAnnualSalary) + " dollars and monthly spend of "
+        + #stringify($clientInfo.monthlySpend) + " dollars, you are saving " + #stringify($monthlySavings) + " dollars per month.");
         set $monthsToGoal = external calculateMonthsToGoal($monthlySavings, $cashSavings, $investments, $savingsGoal.amount);
         
         #sayText("Given that you also have " + $cashSavings + " dollars in savings, and " + $investments
@@ -169,7 +203,7 @@ node savings_goal
         }
         else
         {
-            #sayText("Let me know if you'd like to learn about strategies to help you save money.");
+            #sayText("It looks like you're going to be just short of your goal");
         }
         #sayText("Can I help you with anything else today?");
         wait *;
@@ -178,27 +212,7 @@ node savings_goal
     {
         bye_then: goto bye_then on #messageHasIntent("no");
         what_else: goto what_else on #messageHasIntent("yes");
-    }
-}
-
-// acknowledge flow begins
-digression status
-{
-    conditions
-    {
-        on #messageHasIntent("status");
-    }
-    do
-    {
-        #sayText("Great! To tell you your ACME Rockets application status, I need to confirm your identity.");
-        #sayText("It seems that you are logged in as Mr. Wile E. Coyote. Can you please confirm the answer to the secret question.");
-        #sayText("What is your favourite fruit?");
-        wait *;
-    }
-    
-    transitions
-    {
-        confirm: goto confirm on #messageHasData("fruit");
+        investment_advice: goto investment_advice on #messageHasIntent("advice");
     }
 }
 
@@ -218,7 +232,8 @@ node confirm
         {
             set $clientInfo = external getClientInfo(fruit);
 
-            #sayText("Hi, " + $clientInfo.name + "! Your identity is confirmed. Let me just check your status. ");
+
+            #sayText("Hi, " + $clientInfo.name + "! Your identity is confirmed.");
 
             goto approved;
         }

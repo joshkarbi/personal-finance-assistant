@@ -78,13 +78,15 @@ const main = async () => {
     }
   });
   app.setExternal("calculateMonthlySavings", async(argv, conv) => {
-    // assuming 78% take-home salary rate
-    var monthlySavings = (parseInt(argv.salary) * 0.78) / 12 - parseInt(argv.monthlySpend);
-    return monthlySavings.toString();
+    // assuming 75% take-home salary rate
+    var monthlySavings = ((argv.grossAnnualSalary * 0.75) / 12) - argv.monthlySpend;
+    console.log(argv.grossAnnualSalary)
+    console.log(argv.monthlySpend)
+    return monthlySavings;
   })
 
   app.setExternal("calculateMonthsToGoal", async(argv, conv) => {
-    var monthsToGoal = (parseInt(argv.goalAmount) - (parseInt(argv.investments) + parseInt(argv.cash))) / parseInt(argv.monthlySavings);
+    var monthsToGoal = (parseInt(argv.goalAmount) - (parseInt(argv.investments) + parseInt(argv.cash))) / argv.monthlySavings;
     return Math.round(monthsToGoal);
   })
 
@@ -101,9 +103,11 @@ const main = async () => {
     }
   });
 
-  app.setExternal("getClientName", async(args, conv) => {
+  app.setExternal("getClientInfo", async(args, conv) => {
     var clientInfo = await dbUtils.retrieveClientInfo(args.secretWord);
-    return clientInfo.name;
+    console.log("HERE");
+    console.log(clientInfo);
+    return clientInfo;
   });
 
   await app.start({ concurrency: 10 });

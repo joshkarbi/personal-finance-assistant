@@ -3,7 +3,6 @@ context
     input endpoint: string;
     
     // declare input variables here
-    input firstName: string = "Dalton";  // fetch this from DB at some point
     
     // declare storage variables here
     spendAmount: string = "unknown";
@@ -36,7 +35,8 @@ context
 }
 
 // declare external functions here
-external function confirm(fruit: string): boolean;
+external function confirm(secretWord: string): boolean;
+external function getClientName(secretWord: string): string;
 external function status(): string;
 external function canAffordExpense(cost: string): boolean;
 external function canGoToPlace(place: string): boolean;
@@ -50,11 +50,14 @@ start node root
     {
         #connectSafe($endpoint);
         #waitForSpeech(1000);
-        #sayText("Hello " + $firstName + " , I'm Dasha, your personal finance assistant. How can I help you today?");
+        #sayText("Hello, I'm Dasha, your personal finance assistant. Before we begin, I need to confirm your identity.");
+        #sayText("Can you please confirm the answer to the security question.");
+        #sayText("What is your secret word?");
         wait *;
     }
     transitions
     {
+        confirm: goto confirm on #messageHasData("fruit");
     }
 }
 
@@ -63,17 +66,19 @@ node what_else
 {
     do
     {
-        #sayText("What else can I help you with?");
+        #sayText("What can I help you with?");
         wait *;
+    }
+    transitions
+    {
+        spend: goto spend_amount on #messageHasIntent("spend");
+        savings: goto savings_goal on #messageHasIntent("check_savings_goal");
+        place: goto place on #messageHasIntent("goToPlace");
     }
 }
 
-digression spend_amount
+node spend_amount
 {
-    conditions
-    {
-        on #messageHasIntent("spend");
-    }
     do
     {
         set $spendAmount = #messageGetData("spend_amount")[0]?.value??"";
@@ -96,7 +101,7 @@ digression spend_amount
     }
 }
 
-digression place
+node place
 {
     conditions
     {
@@ -124,12 +129,8 @@ digression place
     }
 }
 
-digression savings_goal
+node savings_goal
 {
-    conditions
-    {
-        on #messageHasIntent("check_savings_goal");
-    }
     do
     {
         #sayText("Sure, let me take a look at your goal of saving " + $savingsGoal.amount + " dollars for a " + $savingsGoal.item);
@@ -192,7 +193,8 @@ node confirm
         var response = external confirm(fruit);
         if (response)
         {
-            #sayText("Great, identity confirmed. Let me just check your status. ");
+            var name = external getClientName(fruit);
+            #sayText("Hi, " + name + "! Your identity is confirmed. Let me just check your status. ");
             goto approved;
         }
         else

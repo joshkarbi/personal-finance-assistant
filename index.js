@@ -35,7 +35,7 @@ const main = async () => {
   var dashaKey = process.env.DASHA_APIKEY;
   if (process.env.PRODUCTION != undefined)
   {
-    dashaKey = await fs.readFile("/etc/.dasha");
+    dashaKey = await fs.readFile("/secrets/.dasha");
   } 
   const app = await dasha.deploy(`${__dirname}/app`, {
     groupName: "Default",

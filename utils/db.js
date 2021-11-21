@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const fs = require('fs');
 
-const credentials = 'X509.pem';
+const credentials = (process.env.PRODUCTION == undefined) ? 'X509.pem' : '/secrets2/X509.pem';
 
 const client = new MongoClient('mongodb+srv://personal-finance-assist.yqigu.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority', {
   sslKey: credentials,

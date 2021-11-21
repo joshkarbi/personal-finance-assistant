@@ -11,7 +11,7 @@ expressApp.use(express.json());
 expressApp.use(cors());
 
 const wss = new wslib.WebSocketServer({ port: 8080 });
-
+const wss = new wslib.WebSocketServer({ port: process.env.PORT || 9000 });
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);

@@ -5,5 +5,5 @@ availableSecrets:
   secretManager:
   - versionName: projects/dotted-furnace-332721/secrets/dasha-api-key/versions/1
     env: 'DASHA_APIKEY'
-  - versionName: projects/dotted-furnace-332721/secrets/DOCKER_USERNAME_SECRET_NAME/versions/1
+  - versionName: projects/dotted-furnace-332721/secrets/mongodb-credentials/versions/1
     env: 'MONGODB_CREDS'

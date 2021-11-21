@@ -2,6 +2,11 @@ FROM node:latest
 
 WORKDIR /app
 
+ARG MONGODB_CREDS
+ARG DASHA_APIKEY
+
+RUN echo $MONGODB_CREDS
+
 RUN echo $MONGODB_CREDS > X509.pem
 RUN echo $DASHA_APIKEY > .dasha
 RUN cat X509.pem

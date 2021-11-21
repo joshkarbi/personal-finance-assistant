@@ -13,6 +13,7 @@ RUN npm install
 COPY utils/ /app/utils/
 COPY client/ /app/client/
 COPY app/ /app/app/
+COPY index.js /app/index.js
 
 EXPOSE 8080
 EXPOSE 8000

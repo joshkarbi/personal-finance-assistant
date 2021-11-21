@@ -4,15 +4,18 @@
   {
     "spend": {
       "includes": [
-        "I want to spend (20)[spend_amount] dollars at Montanas"
+        "spend",
+        "spends"
       ]
     },
-    "goToPlace": {
+    "go_to_place": {
       "includes": [
-        "Can i go to red lobster tonight",
-        "Is it okay to go with my friends to east dide mario's for lunch",
-        "Does the budget allow me to eat at montanas later",
-        "Dinner at the Keg tomorrow"
+        "the keg",
+        "mcdonalds",
+        "mcdonalds",
+        "mcdonald",
+        "McDonald",
+        "mcdonald's"
       ]
     },
     "check_savings_goal": {
@@ -144,37 +147,35 @@
       "open_set": true,
       "values": [
         {
-          "value": "Montana's BBQ & Bar",
-          "synonyms": [
-            "Montana's BBQ and Bar", "Montana's"
-          ]
-        },
-        {
-          "value": "Red Lobster",
-          "synonyms": [
-            "The Red Lobster", "Red Lobster", "red lobster"
-          ]
-        },
-        {
-          "value": "East Side Mario's",
-          "synonyms": [
-            "east side marios", "East Side Mario", "Eastside marios"
-          ]
-        },
-        {
           "value": "The Keg",
           "synonyms": [
             "the keg", "keg", "The Keg", "the Keg"
           ]
+        },
+        {
+          "value": "mcdonalds",
+          "synonyms": [
+            "mcdonalds", "mcdonald", "McDonald", "mcdonald's"
+          ]
         }
       ],
       "includes": [
-        "Can I go to (Red Lobster)[place] tonight",
-        "Is it okay to go with my friends to (East Side Mario's)[place] for lunch",
-        "Does the budget allow me to eat at (Montana's BBQ and Bar)[place] later",
-        "(east side marios)[place] tonight for 8",
+        "Can I go for dinner at (The Keg)[place] tonight",
+        "Is it okay to go with my friends to (The Keg)[place] for lunch",
+        "Does the budget allow me to eat at (The Keg)[place] later",
+        "(The Keg)[place] tonight for 8",
         "Dinner at (The Keg)[place] tomorrow",
-        "Dinner at (the keg)[place] tomorrow"
+        "Dinner at (The Keg)[place] in two days",
+        "Lets get dinner at (The Keg)[place]",
+        "Lets get lunch at (The Keg)[place]",
+        "Can I go for dinner at (mcdonalds)[place] tonight",
+        "Is it okay to go with my friends to (mcdonalds)[place] for lunch",
+        "Does the budget allow me to eat at (mcdonalds)[place] later",
+        "(mcdonalds)[place] tonight for 8",
+        "Dinner at (mcdonalds)[place] tomorrow",
+        "Dinner at (mcdonalds)[place] in two days",
+        "Lets get dinner at (mcdonalds)[place]",
+        "Lets get lunch at (mcdonalds)[place]"
       ]
     }
   }

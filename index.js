@@ -45,19 +45,19 @@ const main = async () => {
     }
   });
 
+  
+
   app.setExternal("canGoToPlace", async(argv, conv) => {
-    // API call to get money sign
-    var dollarSignCount = 4;
-    
-    if (argv.place == "Montana's BBQ & Bar") {
-      dollarSignCount = 2;
-    }
+    var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + argv.place + "+london+canada&fields=price_level&key=AIzaSyAQsvP2FK1CoeyzhXdL0vPDJ06tfsdXLZw";
+    const res = await axios.get(url);
+    var priceLevel = res.data.results[0].price_level;
+    res.data
 
     var avgSpend = {1: 15, 2: 30, 3: 60, 4: 120}
 
-    var expectedSpend = avgSpend[dollarSignCount]
+    var expectedSpend = avgSpend[priceLevel]
 
-    if (expectedSpend < 50)
+    if (expectedSpend < 25)
     {
       await sendToFrontendOverWS("Can afford to go to place.");
       return true;

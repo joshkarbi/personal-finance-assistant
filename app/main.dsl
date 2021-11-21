@@ -8,22 +8,26 @@ context
     // declare storage variables here
     spendAmount: string = "unknown";
     place: string = "unknown";
-
+    
     // inputs for check_savings_goal flow
-    input savingsGoal: {
+    input savingsGoal:
+    {
         item: string;
         amount: string;
         months: number;
-    } = {
+    }
+    =
+    {
         item: "car",
         amount: "20000",
         months: 10
-    };
+    }
+    ;
     input salary: string = "80000";
     input monthlySpend: string = "1500";
     input cashSavings: string = "1000";
     input investments: string = "5000";
-
+    
     // declare storage variables here
     currentMonth: string = "11";
     currentYear: string = "2021";
@@ -96,7 +100,7 @@ digression place
 {
     conditions
     {
-        on #messageHasIntent("goToPlace");
+        on #messageHasIntent("go_to_place");
     }
     do
     {
@@ -120,29 +124,36 @@ digression place
     }
 }
 
-digression savings_goal {
-    conditions { on #messageHasIntent("check_savings_goal"); }
-    do {
+digression savings_goal
+{
+    conditions
+    {
+        on #messageHasIntent("check_savings_goal");
+    }
+    do
+    {
         #sayText("Sure, let me take a look at your goal of saving " + $savingsGoal.amount + " dollars for a " + $savingsGoal.item);
         set $monthlySavings = external calculateMonthlySavings($salary, $monthlySpend);
-        #sayText("Based on your current salary of " + $salary + " dollars and monthly spend of " 
+        #sayText("Based on your current salary of " + $salary + " dollars and monthly spend of "
         + $monthlySpend + " dollars, you are saving " + $monthlySavings + " dollars per month.");
         set $monthsToGoal = external calculateMonthsToGoal($monthlySavings, $cashSavings, $investments, $savingsGoal.amount);
-
-        #sayText("Given that you also have " + $cashSavings + " dollars in savings, and " + $investments 
+        
+        #sayText("Given that you also have " + $cashSavings + " dollars in savings, and " + $investments
         + " dollars in investments, if you continue saving this much you will reach your goal in " + #stringify($monthsToGoal) + " months!");
         
-        if($monthsToGoal < $savingsGoal.months) {
+        if($monthsToGoal < $savingsGoal.months)
+        {
             #sayText("Keep up the good work and you'll be well on your way!");
-            
         }
-        else {
+        else
+        {
             #sayText("Let me know if you'd like to learn about strategies to help you save money.");
         }
         #sayText("Can I help you with anything else today?");
         wait *;
     }
-    transitions {
+    transitions
+    {
         bye_then: goto bye_then on #messageHasIntent("no");
         what_else: goto what_else on #messageHasIntent("yes");
     }

@@ -1,46 +1,49 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
+    background-color:#e5131345;
+    font-family: Verdana, sans-serif;
+}
+
+h1 {
+    padding: 20px;
+}
+
+.thingy {
+    background-color:white;
+    width: 120vh;
     height: 100vh;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    margin: auto;
+    font-family: Verdana, sans-serif;
+}
+
+.info {
+    text-align: left;
+    padding: 0px 100px;
+}
+
+p {
+    padding: 16px;
+    margin: 24px 0px;
+    border-style: solid;
+    border-radius: 25px;
+    border-color: #e11212;
 }
 
 .button, .button-bg {
-    border: none;
     cursor: pointer;
     width: 200px;
     height: 100px;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
     line-height: 100px;
-    color: rgba(255,255,255,0.9);
-    border-radius: 50px;
-    background: linear-gradient(-45deg, #ffa63d, #ff3d77, #338aff, #3cf0c5);
-    background-size: 600%;
-    -webkit-animation: anime 16s linear infinite;
-            animation: anime 16s linear infinite;
+    color: black;
+    border-radius: 25px;
+    font-family: Verdana, sans-serif;
 }
 
 .button .button-bg {
     position: absolute;
     margin-top: -70px;
     z-index: -1;
-    filter: blur(30px);
-    opacity: 0.8;
-}
-
-@keyframes anime {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
 }

@@ -3,8 +3,7 @@ context
     input endpoint: string;
     
     // declare input variables here
-    input firstName: string = "Dalton";  // fetch this from DB at some point
-    
+
     // declare storage variables here
     spendAmount: string = "unknown";
     place: string = "unknown";
@@ -32,7 +31,8 @@ context
 }
 
 // declare external functions here
-external function confirm(fruit: string): boolean;
+external function confirm(secretWord: string): boolean;
+external function getClientName(secretWord: string): string;
 external function status(): string;
 external function canAffordExpense(cost: string): boolean;
 external function canGoToPlace(place: string): boolean;
@@ -46,9 +46,9 @@ start node root
     {
         #connectSafe($endpoint);
         #waitForSpeech(1000);
-        #sayText("Hello " + $firstName + " , I'm Dasha, your personal finance assistant. Before we begin, I need to confirm your identity.");
+        #sayText("Hello, I'm Dasha, your personal finance assistant. Before we begin, I need to confirm your identity.");
         #sayText("Can you please confirm the answer to the security question.");
-        #sayText("What is your favourite fruit?");
+        #sayText("What is your secret word?");
         wait *;
     }
     transitions
@@ -180,8 +180,9 @@ node confirm
         )[0]?.value??"";
         var response = external confirm(fruit);
         if (response)
-        {
-            #sayText("Great, identity confirmed. Let me just check your status. ");
+        {   
+            var name = external getClientName(fruit);
+            #sayText("Hi, " + name + "! Your identity is confirmed. Let me just check your status. ");
             goto approved;
         }
         else

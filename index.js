@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 const cors = require("cors");
 const wslib = require('ws');
-
+const dbUtils = require('./utils/db');
 
 const expressApp = express();
 expressApp.use(express.json());
@@ -20,6 +20,7 @@ wss.on('connection', function connection(ws) {
 });
 
 const axios = require("axios").default;
+const { ObjectId } = require("mongodb");
 
 async function sendToFrontendOverWS(message) {
   wss.clients.forEach(function each(client) {
@@ -80,18 +81,21 @@ const main = async () => {
   })
 
   app.setExternal("confirm", async(args, conv) => {
-      console.log("collected fruit is " + args.fruit);
-
-      const res = await axios.post( "http://ptsv2.com/t/dasha-test/post");
-      console.log(" JSON data from API ==>", res.data);
-
-      const receivedFruit = res.data.favoriteFruit;
-      console.log("fruit is  ==>", receivedFruit);
-
-    if (args.fruit == receivedFruit)
+    var clientInfo = await dbUtils.retrieveClientInfo(args.secretWord);
+    console.log("CLIENT INFO", clientInfo);
+    if (clientInfo == null)
+    {
+      return false;
+    }
+    else
+    {
       return true;
-    else 
-      return false; 
+    }
+  });
+
+  app.setExternal("getClientName", async(args, conv) => {
+    var clientInfo = await dbUtils.retrieveClientInfo(args.secretWord);
+    return clientInfo.name;
   });
 
 // External function check status 
@@ -149,3 +153,12 @@ const main = async () => {
 };
 
 main();
+// const test = async() => {
+//   var clientInfo = await dbUtils.retrieveClientInfo("bananas");
+//   console.log(clientInfo);
+//   await dbUtils.updateClientSecretWord(new ObjectId("619983efaae1fe493b863481"),"banana");
+//   clientInfo = await dbUtils.retrieveClientInfo("banana");
+//   console.log(clientInfo);
+// };
+
+// test()
